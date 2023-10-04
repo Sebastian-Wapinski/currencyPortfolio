@@ -5,9 +5,18 @@
         "plugin:react/recommended"
     ],
     "rules": {
-        "no-useless-escape": ["off"],
-        "n/handle-callback-err": ["off"],
-        "operator-linebreak": ["off"],
+        "no-case-declarations": [
+            "off"
+        ],
+        "no-useless-escape": [
+            "off"
+        ],
+        "n/handle-callback-err": [
+            "off"
+        ],
+        "operator-linebreak": [
+            "off"
+        ],
         "react/jsx-curly-spacing": [
             "warn",
             "never",

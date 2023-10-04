@@ -5,7 +5,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { StyledForm, StyledButton } from './currenciesFormData.styled'
 import RenderInputs from '../../components/RenderInputs/RenderInputs'
 import { useDispatch } from 'react-redux'
-import { createActionAdd } from './currenciesFormData.actions'
+import { createActionAddAllData, createActionAddCurrency } from './currenciesFormData.actions'
 
 export const CurrenciesFormData = () => {
   const methods = useForm({
@@ -20,7 +20,8 @@ export const CurrenciesFormData = () => {
   const onSubmit = handleSubmit((data, e) => {
     console.log(data)
     reset()
-    dispatch(createActionAdd(data))
+    dispatch(createActionAddAllData(data))
+    dispatch(createActionAddCurrency(data))
     // setPurchaseDateCall(false)
   }, (error, e) => {
     console.log(error)
