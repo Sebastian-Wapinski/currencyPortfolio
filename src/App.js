@@ -1,10 +1,15 @@
 import React from 'react'
+import { CurrenciesFormData } from './modules/currenciesFormData'
+
+import { StyledApp, StyledLayout } from './App.styled'
 
 const App = () => {
   return (
-    <div>
-      From
-    </div>
+    <StyledApp>
+      <StyledLayout>
+        <CurrenciesFormData />
+      </StyledLayout>
+    </StyledApp>
   )
 }
 
