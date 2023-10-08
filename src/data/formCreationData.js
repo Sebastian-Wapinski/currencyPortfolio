@@ -66,11 +66,11 @@ export const formCreationData = [
         message: 'This field is required'
       },
       min: {
-        value: 0.01,
-        message: 'Starts at 0.01'
+        value: 0.0001,
+        message: 'Starts at 0.0001'
       },
       pattern: {
-        value: /^[0-9]+(\.[0-9]{2})$/,
+        value: /^[0-9]+(\.[0-9]{4})$/,
         message: 'Incorrect price'
       }
     },

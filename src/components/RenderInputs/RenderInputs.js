@@ -5,6 +5,8 @@ import { StyledRenderInputs, StyledLabel, StyledInput, StyledInputContainer } fr
 import { useFormContext } from 'react-hook-form'
 import { formCreationData } from '../../data/formCreationData'
 import isDate from 'validator/lib/isDate'
+import { useDispatch, useSelector } from 'react-redux'
+import { getCurrencyAutocomplete } from '../../modules/currenciesFormData/currenciesFormData.api'
 
 export const RenderInputs = (props) => {
   const {
@@ -13,14 +15,24 @@ export const RenderInputs = (props) => {
   } = props
 
   const methods = useFormContext()
-  const { register, watch, formState: { errors } } = methods
+  const { setValue, register, watch, formState: { errors } } = methods
+  const dispatch = useDispatch()
 
   const purchaseDate = watch('purchaseDate')
+  const currencyType = watch('currencyType')
 
-  if (isDate(purchaseDate, { format: 'YYYY-MM-DD' })) {
+  if (currencyType && isDate(purchaseDate, { format: 'YYYY-MM-DD' })) {
     console.log('apiCall')
-    // setPurchaseDateCall(true) Redux
+    dispatch(getCurrencyAutocomplete(purchaseDate, currencyType))
   }
+
+  const autocompleteRate = useSelector(state => state.formData.autocompleteRate)
+
+  React.useEffect(() => {
+    if (currencyType && isDate(purchaseDate, { format: 'YYYY-MM-DD' })) {
+      setValue('currencyPrice', autocompleteRate)
+    }
+  }, [autocompleteRate, currencyType, purchaseDate, setValue])
 
   return (
     <StyledRenderInputs

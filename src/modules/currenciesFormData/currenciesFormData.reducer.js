@@ -1,7 +1,8 @@
-import { ADD_ALL } from './currenciesFormData.types'
+import { ADD_ALL, AUTOCOMPLETE_DATA } from './currenciesFormData.types'
 
 const initialState = {
-  currenciesFormData: []
+  currenciesFormData: [],
+  autocompleteRate: 0
 }
 
 const reducer = (state = initialState, actions) => {
@@ -10,6 +11,11 @@ const reducer = (state = initialState, actions) => {
       return {
         ...state,
         currenciesFormData: [...state.currenciesFormData, actions.payload]
+      }
+    case AUTOCOMPLETE_DATA:
+      return {
+        ...state,
+        autocompleteRate: actions.payload && actions.payload.mid
       }
     default:
       return state
