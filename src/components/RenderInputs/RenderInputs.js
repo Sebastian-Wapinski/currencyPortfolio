@@ -22,7 +22,6 @@ export const RenderInputs = (props) => {
   const currencyType = watch('currencyType')
 
   if (currencyType && isDate(purchaseDate, { format: 'YYYY-MM-DD' })) {
-    console.log('apiCall')
     dispatch(getCurrencyAutocomplete(purchaseDate, currencyType))
   }
 
@@ -30,7 +29,7 @@ export const RenderInputs = (props) => {
 
   React.useEffect(() => {
     if (currencyType && isDate(purchaseDate, { format: 'YYYY-MM-DD' })) {
-      setValue('currencyPrice', autocompleteRate)
+      setValue('currencyPrice', autocompleteRate.toString())
     }
   }, [autocompleteRate, currencyType, purchaseDate, setValue])
 
