@@ -3,9 +3,11 @@ import thunk from 'redux-thunk'
 import { EXCHANGE_ARR_DATA_NAME } from './const'
 
 import formDataReducer from './modules/currenciesFormData/currenciesFormData.reducer'
+import exchangeRatesReducer from './modules/exchangeRatesArr/exchangeRatesArr.reducer'
 
 const reducers = combineReducers({
-  formData: formDataReducer
+  formData: formDataReducer,
+  exchangeRates: exchangeRatesReducer
 })
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose

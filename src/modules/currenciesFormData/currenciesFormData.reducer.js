@@ -1,8 +1,7 @@
-import { ADD_ALL, ADD_CURRENCY } from './currenciesFormData.types'
+import { ADD_ALL } from './currenciesFormData.types'
 
 const initialState = {
-  currenciesFormData: [],
-  symbolsArr: []
+  currenciesFormData: []
 }
 
 const reducer = (state = initialState, actions) => {
@@ -11,16 +10,6 @@ const reducer = (state = initialState, actions) => {
       return {
         ...state,
         currenciesFormData: [...state.currenciesFormData, actions.payload]
-      }
-    case ADD_CURRENCY:
-      const newSymbolsArr = state.symbolsArr.find(currencyType => currencyType === actions.payload.toUpperCase())
-      if (newSymbolsArr) {
-        return state
-      }
-
-      return {
-        ...state,
-        symbolsArr: [...state.symbolsArr, actions.payload.toUpperCase()]
       }
     default:
       return state
