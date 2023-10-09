@@ -1,10 +1,10 @@
 import styled, { css } from 'styled-components'
 
 const DefaultStyledLabel = styled.label`
-color: ${
-  props => props.theme.primaryTextColor
-};
-grid-area: label;
+display: flex;
+justify-content: center;
+margin: 0.6rem 0;
+color: ${props => props.theme.thirdTextColor};
 font-weight: 500;
 cursor: pointer;
 ${

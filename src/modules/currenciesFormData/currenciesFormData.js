@@ -9,7 +9,7 @@ import { createActionAddAllData, createActionCurrencyAutocomplete } from './curr
 
 export const CurrenciesFormData = () => {
   const methods = useForm({
-    mode: 'onSubmit',
+    mode: 'onChange',
     reValidateMode: 'onChange',
     defaultValues: {
       currencyType: '',
@@ -27,8 +27,6 @@ export const CurrenciesFormData = () => {
     reset()
     dispatch(createActionCurrencyAutocomplete(false))
     dispatch(createActionAddAllData(data))
-  }, (error, e) => {
-    console.log(error)
   })
 
   return (

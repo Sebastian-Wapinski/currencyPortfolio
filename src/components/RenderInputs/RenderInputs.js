@@ -17,21 +17,20 @@ export const RenderInputs = (props) => {
   const methods = useFormContext()
   const { setValue, register, watch, formState: { errors } } = methods
   const dispatch = useDispatch()
+  const autocompleteRate = useSelector(state => state.formData.autocompleteRate)
+  const currenciesExchangeData = useSelector(state => state.exchangeRates.currencyRates)
 
   const purchaseDate = watch('purchaseDate')
   const currencyType = watch('currencyType')
 
-  if (currencyType && isDate(purchaseDate, { format: 'YYYY-MM-DD' })) {
-    dispatch(getCurrencyAutocomplete(purchaseDate, currencyType))
-  }
-
-  const autocompleteRate = useSelector(state => state.formData.autocompleteRate)
-
   React.useEffect(() => {
-    if (currencyType && isDate(purchaseDate, { format: 'YYYY-MM-DD' })) {
+    const isCurrencyExists = currenciesExchangeData.find(currency => currency.code === currencyType.toUpperCase()) || false
+
+    if (isCurrencyExists && isDate(purchaseDate, { format: 'YYYY-MM-DD' })) {
+      dispatch(getCurrencyAutocomplete(purchaseDate, currencyType))
       setValue('currencyPrice', autocompleteRate.toString())
     }
-  }, [autocompleteRate, currencyType, purchaseDate, setValue])
+  }, [autocompleteRate, currenciesExchangeData, currencyType, dispatch, purchaseDate, setValue])
 
   return (
     <StyledRenderInputs
