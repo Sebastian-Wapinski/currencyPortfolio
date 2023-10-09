@@ -14,6 +14,11 @@ font-weight: 600;
 font-size: 0.95rem;
 text-align: center;
 
+&::placeholder {
+  color: ${props => props.theme.forthBackground};
+  font-weight: 400;
+}
+
 @media (max-width: ${responsiveSizes.small}) {
   font-weight: 500;
   font-size: 0.75rem;

@@ -1,21 +1,21 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
 import { StyledRenderInputs, StyledLabel, StyledInput, StyledInputContainer } from './RenderInputs.styled'
+
 import { useFormContext } from 'react-hook-form'
-import { formCreationData } from '../../data/formCreationData'
-import isDate from 'validator/lib/isDate'
 import { useDispatch, useSelector } from 'react-redux'
+import { formCreationData } from '../../data/formCreationData'
 import { getCurrencyAutocomplete } from '../../modules/currenciesFormData/currenciesFormData.api'
+import { checkIsCurrencyExists } from '../../helper/helper'
 
-export const RenderInputs = (props) => {
-  const {
-    children,
-    ...otherProps
-  } = props
+import isDate from 'validator/lib/isDate'
+import isBefore from 'validator/lib/isBefore'
+import isAfter from 'validator/lib/isAfter'
 
+export const RenderInputs = () => {
   const methods = useFormContext()
-  const { setValue, register, watch, formState: { errors } } = methods
+  const { setValue, register, watch, clearErrors, formState: { errors } } = methods
+
   const dispatch = useDispatch()
   const autocompleteRate = useSelector(state => state.formData.autocompleteRate)
   const currenciesExchangeData = useSelector(state => state.exchangeRates.currencyRates)
@@ -23,22 +23,37 @@ export const RenderInputs = (props) => {
   const purchaseDate = watch('purchaseDate')
   const currencyType = watch('currencyType')
 
-  React.useEffect(() => {
-    const isCurrencyExists = currenciesExchangeData.find(currency => currency.code === currencyType.toUpperCase()) || false
+  const _checkIsCurrencyExists = React.useCallback(() => {
+    return checkIsCurrencyExists(currenciesExchangeData, currencyType)
+  }, [currenciesExchangeData, currencyType])
 
-    if (isCurrencyExists && isDate(purchaseDate, { format: 'YYYY-MM-DD' })) {
+  const _checkAutocompleteDependencies = React.useCallback((isCurrencyExists, purchaseDate) => {
+    return (
+      isCurrencyExists &&
+      isDate(purchaseDate, { format: 'YYYY-MM-DD' }) &&
+      isBefore(purchaseDate) &&
+      isAfter(purchaseDate, { comparisonDate: (new Date('2002-01-02')).toString() })
+    )
+  }, [])
+
+  const _makeAutocomplete = React.useCallback((isCurrencyExists) => {
+    if (_checkAutocompleteDependencies(isCurrencyExists, purchaseDate)) {
       dispatch(getCurrencyAutocomplete(purchaseDate, currencyType))
       setValue('currencyPrice', autocompleteRate.toString())
+      clearErrors('currencyPrice')
     }
-  }, [autocompleteRate, currenciesExchangeData, currencyType, dispatch, purchaseDate, setValue])
+  }, [_checkAutocompleteDependencies, autocompleteRate, clearErrors, currencyType, dispatch, purchaseDate, setValue])
+
+  React.useEffect(() => {
+    const isCurrencyExists = _checkIsCurrencyExists()
+    _makeAutocomplete(isCurrencyExists)
+  }, [_checkIsCurrencyExists, _makeAutocomplete])
 
   return (
-    <StyledRenderInputs
-      {...otherProps}
-    >
+    <StyledRenderInputs>
       {
         formCreationData.map(input => {
-          const { label, id, validationParams, isRequired } = input
+          const { label, id, validationParams, isRequired, placeholder } = input
           return (
             <StyledInputContainer key={id}>
               <StyledLabel
@@ -48,9 +63,11 @@ export const RenderInputs = (props) => {
                 {label}
               </StyledLabel>
               <StyledInput
+                autoComplete={'one-time-code'}
                 type={'text'}
                 id={id}
                 errors={errors}
+                placeholder={placeholder}
                 {...register(id, { ...validationParams })}
               />
             </StyledInputContainer>
@@ -59,10 +76,6 @@ export const RenderInputs = (props) => {
       }
     </StyledRenderInputs>
   )
-}
-
-RenderInputs.propTypes = {
-  children: PropTypes.node
 }
 
 export default RenderInputs

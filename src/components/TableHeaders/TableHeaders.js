@@ -1,19 +1,11 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
 import { StyledTableHeaders, StyledTh, StyledTr } from './TableHeaders.styled'
 import { tableHeaders } from '../../data/tableHeaders'
 
-export const TableHeaders = (props) => {
-  const {
-    children,
-    ...otherProps
-  } = props
-
+export const TableHeaders = () => {
   return (
-    <StyledTableHeaders
-      {...otherProps}
-    >
+    <StyledTableHeaders>
       <StyledTr>
         {
         tableHeaders.map((header, i) => {
@@ -25,10 +17,6 @@ export const TableHeaders = (props) => {
       </StyledTr>
     </StyledTableHeaders>
   )
-}
-
-TableHeaders.propTypes = {
-  children: PropTypes.node
 }
 
 export default TableHeaders

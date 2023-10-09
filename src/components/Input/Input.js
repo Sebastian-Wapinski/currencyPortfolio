@@ -11,7 +11,7 @@ export const Input = React.forwardRef((props, ref) => {
   } = props
 
   return (
-    <div>
+    <>
       <StyledInput
         ref={ref}
         id={id}
@@ -20,7 +20,7 @@ export const Input = React.forwardRef((props, ref) => {
       {
           errors[id] && <StyledErrorsMessage>{errors[id].message}</StyledErrorsMessage>
       }
-    </div>
+    </>
   )
 })
 

@@ -1,30 +1,43 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
 import { StyledTableBody, StyledTr, StyledTd } from './TableBody.styled'
 import { useSelector } from 'react-redux'
+import { checkIsCurrencyExists } from '../../helper/helper'
 
-export const TableBody = (props) => {
-  const {
-    children,
-    ...otherProps
-  } = props
-
+export const TableBody = () => {
   const currenciesFormData = useSelector(state => state.formData.currenciesFormData)
   const currenciesExchangeData = useSelector(state => state.exchangeRates.currencyRates)
 
+  const _computeCurrentValue = React.useCallback((currentCurrency, amount) => {
+    return (currentCurrency * amount).toFixed(2)
+  }, [])
+
+  const _computeProfitLoss = React.useCallback((currentValue, amount, currencyPrice) => {
+    return ((currentValue) - (amount * currencyPrice)).toFixed(2)
+  }, [])
+
+  const _computeProfitLossPercentage = React.useCallback((currentValue, amount, currencyPrice) => {
+    return Number((((currentValue * 100) / (amount * currencyPrice)) - 100).toFixed(2))
+  }, [])
+
+  const _isPercentageHigherThenZero = React.useCallback((percentage) => {
+    return Math.floor(Number(percentage)) > 0
+  }, [])
+
+  const _isCurrentValueHigherThenPurchaseValue = React.useCallback((currentValue, amount, currencyPrice) => {
+    return currentValue > (amount * currencyPrice).toFixed(2)
+  }, [])
+
   return (
-    <StyledTableBody
-      {...otherProps}
-    >
+    <StyledTableBody>
       {
           currenciesFormData.map((item, i) => {
-            const [currentCurrency] = currenciesExchangeData.filter(currency => currency.code === item.currencyType.toUpperCase())
-            const currentValue = (currentCurrency.mid * item.amount).toFixed(2)
-            const profitLoss = ((currentValue) - (item.amount * item.currencyPrice)).toFixed(2)
-            const percentage = Number((((currentValue * 100) / (item.amount * item.currencyPrice)) - 100).toFixed(2))
-            const isPercentageHigherThenZero = Math.floor(Number(percentage)) > 0
-            const isCurrentValueHigherThenPurchaseValue = currentValue > (item.amount * item.currencyPrice).toFixed(2)
+            const currentCurrency = checkIsCurrencyExists(currenciesExchangeData, item.currencyType)
+            const currentValue = _computeCurrentValue(currentCurrency.mid, item.amount)
+            const profitLoss = _computeProfitLoss(currentValue, item.amount, item.currencyPrice)
+            const percentage = _computeProfitLossPercentage(currentValue, item.amount, item.currencyPrice)
+            const percentageHigherThenZero = _isPercentageHigherThenZero(percentage)
+            const currentValueHigherThenPurchaseValue = _isCurrentValueHigherThenPurchaseValue(currentValue, item.amount, item.currencyPrice)
 
             return (
               <StyledTr key={`${item.amount}/${i}/${item.purchaseDate}`}>
@@ -34,17 +47,13 @@ export const TableBody = (props) => {
                 <StyledTd>{item.currencyPrice}</StyledTd>
                 <StyledTd>{currentCurrency.mid}</StyledTd>
                 <StyledTd>{currentValue}</StyledTd>
-                <StyledTd>{isCurrentValueHigherThenPurchaseValue ? '+' : null}{profitLoss}({isPercentageHigherThenZero ? '+' : null}{percentage}%)</StyledTd>
+                <StyledTd>{currentValueHigherThenPurchaseValue ? '+' : null}{profitLoss}({percentageHigherThenZero ? '+' : null}{percentage}%)</StyledTd>
               </StyledTr>
             )
           })
         }
     </StyledTableBody>
   )
-}
-
-TableBody.propTypes = {
-  children: PropTypes.node
 }
 
 export default TableBody

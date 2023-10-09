@@ -32,6 +32,7 @@ export const CurrenciesFormData = () => {
   return (
     <StyledForm
       onSubmit={onSubmit}
+      autoComplete={'off'}
     >
       <FormProvider
         {...methods}

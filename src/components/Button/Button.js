@@ -6,12 +6,12 @@ import { StyledButton } from './Button.styled'
 export const Button = (props) => {
   const {
     children,
-    ...otherProps
+    type
   } = props
 
   return (
     <StyledButton
-      {...otherProps}
+      type={type}
     >
       {children}
     </StyledButton>
@@ -19,7 +19,8 @@ export const Button = (props) => {
 }
 
 Button.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
+  type: PropTypes.string
 }
 
 export default Button
