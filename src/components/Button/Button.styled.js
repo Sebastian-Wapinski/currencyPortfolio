@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { responsiveSizes } from '../style/responsiveSizes'
 
 const DefaultStyledButton = styled.button`
 margin: 0.7rem 0;
@@ -28,6 +29,12 @@ transition: all 0.3s ease-in-out;
   border-radius: 50px;
   background: #ABFFDA;
   box-shadow: inset 20px 20px 36px #89ccae, inset -20px -20px 36px #cdffff;
+}
+
+@media (max-width: ${responsiveSizes.small}) {
+  min-height: 2rem;
+  font-size: 0.85rem;
+  margin: 0.8rem 0;
 }
 `
 

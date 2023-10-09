@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { StyledInput } from './Input.styled'
+import { StyledInput, StyledErrorsMessage } from './Input.styled'
 
 export const Input = React.forwardRef((props, ref) => {
   const {
@@ -18,7 +18,7 @@ export const Input = React.forwardRef((props, ref) => {
         {...otherProps}
       />
       {
-          errors[id] && <p>{errors[id].message}</p>
+          errors[id] && <StyledErrorsMessage>{errors[id].message}</StyledErrorsMessage>
       }
     </div>
   )

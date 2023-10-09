@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components'
+import { responsiveSizes } from '../style/responsiveSizes'
 
 const DefaultStyledLabel = styled.label`
 display: flex;
@@ -13,6 +14,11 @@ ${
     content:'*'
   }
   `
+}
+
+@media (max-width: ${responsiveSizes.small}) {
+  font-size: 0.8rem;
+  margin: 0.5rem 0;
 }
 `
 

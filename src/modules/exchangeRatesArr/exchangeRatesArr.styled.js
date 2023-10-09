@@ -1,8 +1,8 @@
 import styled from 'styled-components'
 
 const DefaultStyledExchangeRatesArr = styled.table`
-border: 1px solid black;
 border-collapse: collapse;
+width: 100%;
 `
 
 const StyledExchangeRatesArr = styled(DefaultStyledExchangeRatesArr)(
