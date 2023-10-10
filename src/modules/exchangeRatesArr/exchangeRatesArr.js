@@ -21,4 +21,4 @@ export const ExchangeRatesArr = () => {
   )
 }
 
-export default ExchangeRatesArr
+export default React.memo(ExchangeRatesArr)

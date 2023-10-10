@@ -1,7 +1,8 @@
 import React from 'react'
 
-import { StyledTableHeaders, StyledTh, StyledTr } from './TableHeaders.styled'
+import { StyledTableHeaders, StyledTr } from './TableHeaders.styled'
 import { tableHeaders } from '../../data/tableHeaders'
+import MemoizedStyledTh from './MemoizedStyledTh'
 
 export const TableHeaders = () => {
   return (
@@ -10,13 +11,17 @@ export const TableHeaders = () => {
         {
         tableHeaders.map((header, i) => {
           return (
-            <StyledTh key={`${header}/${i}`}>{header}</StyledTh>
+            <MemoizedStyledTh
+              key={`${header}/${i}`}
+              id={`${header}/${i}`}
+              header={header}
+            />
           )
         })
-      }
+    }
       </StyledTr>
     </StyledTableHeaders>
   )
 }
 
-export default TableHeaders
+export default React.memo(TableHeaders)

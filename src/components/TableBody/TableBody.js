@@ -1,8 +1,9 @@
 import React from 'react'
 
-import { StyledTableBody, StyledTr, StyledTd } from './TableBody.styled'
+import { StyledTableBody } from './TableBody.styled'
 import { useSelector } from 'react-redux'
 import { checkIsCurrencyExists } from '../../helper/helper'
+import MemoizedStyledTr from './MemoizedStyledTr'
 
 export const TableBody = () => {
   const currenciesFormData = useSelector(state => state.formData.currenciesFormData)
@@ -28,32 +29,35 @@ export const TableBody = () => {
     return currentValue > (amount * currencyPrice).toFixed(2)
   }, [])
 
+  const tableRows = React.useMemo(() => {
+    return currenciesFormData.map((item, i) => {
+      const currentCurrency = checkIsCurrencyExists(currenciesExchangeData, item.currencyType)
+      const currentValue = _computeCurrentValue(currentCurrency.mid, item.amount)
+      const profitLoss = _computeProfitLoss(currentValue, item.amount, item.currencyPrice)
+      const percentage = _computeProfitLossPercentage(currentValue, item.amount, item.currencyPrice)
+      const percentageHigherThenZero = _isPercentageHigherThenZero(percentage)
+      const currentValueHigherThenPurchaseValue = _isCurrentValueHigherThenPurchaseValue(currentValue, item.amount, item.currencyPrice)
+
+      return (
+        <MemoizedStyledTr
+          key={`${item.amount}/${i}/${item.purchaseDate}`}
+          item={item}
+          currentCurrency={currentCurrency}
+          currentValue={currentValue}
+          profitLoss={profitLoss}
+          percentage={percentage}
+          currentValueHigherThenPurchaseValue={currentValueHigherThenPurchaseValue}
+          percentageHigherThenZero={percentageHigherThenZero}
+        />
+      )
+    })
+  }, [_computeCurrentValue, _computeProfitLoss, _computeProfitLossPercentage, _isCurrentValueHigherThenPurchaseValue, _isPercentageHigherThenZero, currenciesExchangeData, currenciesFormData])
+
   return (
     <StyledTableBody>
-      {
-          currenciesFormData.map((item, i) => {
-            const currentCurrency = checkIsCurrencyExists(currenciesExchangeData, item.currencyType)
-            const currentValue = _computeCurrentValue(currentCurrency.mid, item.amount)
-            const profitLoss = _computeProfitLoss(currentValue, item.amount, item.currencyPrice)
-            const percentage = _computeProfitLossPercentage(currentValue, item.amount, item.currencyPrice)
-            const percentageHigherThenZero = _isPercentageHigherThenZero(percentage)
-            const currentValueHigherThenPurchaseValue = _isCurrentValueHigherThenPurchaseValue(currentValue, item.amount, item.currencyPrice)
-
-            return (
-              <StyledTr key={`${item.amount}/${i}/${item.purchaseDate}`}>
-                <StyledTd>{item.currencyType.toUpperCase()}</StyledTd>
-                <StyledTd>{item.amount}</StyledTd>
-                <StyledTd>{item.purchaseDate}</StyledTd>
-                <StyledTd>{item.currencyPrice}</StyledTd>
-                <StyledTd>{currentCurrency.mid}</StyledTd>
-                <StyledTd>{currentValue}</StyledTd>
-                <StyledTd>{currentValueHigherThenPurchaseValue ? '+' : null}{profitLoss}({percentageHigherThenZero ? '+' : null}{percentage}%)</StyledTd>
-              </StyledTr>
-            )
-          })
-        }
+      {tableRows}
     </StyledTableBody>
   )
 }
 
-export default TableBody
+export default React.memo(TableBody)
