@@ -17,6 +17,13 @@ border-collapse: collapse;
 padding: 0.7rem 1rem;
 background: ${props => props.theme.forthBackground};
 color: ${props => props.theme.primaryBackground};
+transition: all 0.3s ease-in-out;
+
+&:hover {
+  cursor: pointer;
+  background: ${props => props.theme.primaryBackground};
+  color: ${props => props.theme.forthBackground};
+}
 
 @media (max-width: ${responsiveSizes.medium}) and (min-width: ${responsiveSizes.small}) {
   padding: 0.6rem 0.3rem;

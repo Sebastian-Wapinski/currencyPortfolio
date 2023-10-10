@@ -24,13 +24,6 @@ transition: all 0.3s ease-in-out;
   color: ${props => props.theme.forthBackground};
 }
 
-&:active {
-  cursor: pointer;
-  border-radius: 50px;
-  background: #ABFFDA;
-  box-shadow: inset 20px 20px 36px #89ccae, inset -20px -20px 36px #cdffff;
-}
-
 @media (max-width: ${responsiveSizes.small}) {
   min-height: 2rem;
   font-size: 0.85rem;

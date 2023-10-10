@@ -2,6 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import { StyledTd, StyledTr } from './TableBody.styled'
+import { useDispatch } from 'react-redux'
+import { createActionUpdateCurrencyData } from '../../modules/currenciesFormData/currenciesFormData.actions'
 
 export const MemoizedStyledTr = (props) => {
   const {
@@ -14,6 +16,12 @@ export const MemoizedStyledTr = (props) => {
     percentageHigherThenZero,
     ...otherProps
   } = props
+
+  const dispatch = useDispatch()
+
+  React.useEffect(() => {
+    dispatch(createActionUpdateCurrencyData(item.id, currentCurrency.mid, currentValue, profitLoss))
+  }, [currentCurrency.mid, currentValue, dispatch, item.id, profitLoss])
 
   return (
     <StyledTr

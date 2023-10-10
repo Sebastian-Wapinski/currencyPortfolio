@@ -6,12 +6,14 @@ export const MemoizedStyledTh = (props) => {
   const {
     id,
     header,
+    onClick,
     ...otherProps
   } = props
 
   return (
     <StyledTh
       id={id}
+      onClick={onClick}
       {...otherProps}
     >
       {header}
@@ -21,7 +23,8 @@ export const MemoizedStyledTh = (props) => {
 
 MemoizedStyledTh.propTypes = {
   id: PropTypes.string,
-  header: PropTypes.string
+  header: PropTypes.string,
+  onClick: PropTypes.func
 }
 
 export default React.memo(MemoizedStyledTh)
