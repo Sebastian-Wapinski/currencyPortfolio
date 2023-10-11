@@ -16,9 +16,10 @@ const reducer = (state = initialState, actions) => {
       }
     case AUTOCOMPLETE_DATA:
       let actionsPayloadMid = actions.payload && (actions.payload.mid).toString().padEnd(6, '0')
+      const createRightFormatForAutocomplete = () => Number((actions.payload.mid).toString().padEnd((actions.payload.mid).toString().length, '0')).toFixed(4)
 
       if (actions.payload && (actions.payload.mid).toString().length > 6) {
-        actionsPayloadMid = actions.payload && (actions.payload.mid).toString().padEnd((actions.payload.mid).toString().length, '0')
+        actionsPayloadMid = actions.payload && createRightFormatForAutocomplete()
       }
 
       return {

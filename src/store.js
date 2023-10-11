@@ -4,10 +4,12 @@ import { EXCHANGE_ARR_DATA_NAME } from './const'
 
 import formDataReducer from './modules/currenciesFormData/currenciesFormData.reducer'
 import exchangeRatesReducer from './modules/exchangeRatesArr/exchangeRatesArr.reducer'
+import currenciesSummaryReducer from './modules/currenciesSummary/currenciesSummary.reducer'
 
 const reducers = combineReducers({
   formData: formDataReducer,
-  exchangeRates: exchangeRatesReducer
+  exchangeRates: exchangeRatesReducer,
+  currenciesSummary: currenciesSummaryReducer
 })
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
