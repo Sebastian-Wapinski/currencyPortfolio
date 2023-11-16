@@ -6,15 +6,13 @@ export const MemoizedStyledTh = (props) => {
   const {
     id,
     header,
-    onClick,
-    ...otherProps
+    onClick
   } = props
 
   return (
     <StyledTh
       id={id}
       onClick={onClick}
-      {...otherProps}
     >
       {header}
     </StyledTh>
