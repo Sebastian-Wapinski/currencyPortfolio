@@ -27,16 +27,22 @@ const reducer = (state = initialState, actions) => {
         autocompleteRate: actions.payload && actionsPayloadMid
       }
     case SORT_BY_ID:
+      const { sortId, sortOrder, setSortOrder } = actions.payload
       const sortedData = [...state.currenciesFormData].sort((a, b) => {
-        const valueA = a[actions.payload]
-        const valueB = b[actions.payload]
+        const valueA = a[sortId]
+        const valueB = b[sortId]
 
-        if (typeof valueA === 'string' && typeof valueB === 'string') {
-          return valueA.localeCompare(valueB)
+        const isNumberA = isNaN(Number(a[sortId]))
+        const isNumberB = isNaN(Number(b[sortId]))
+
+        if (typeof valueA === 'string' && typeof valueB === 'string' && isNumberA && isNumberB) {
+          return sortOrder === 'asc' ? valueA.localeCompare(valueB) : valueB.localeCompare(valueA)
         } else {
-          return valueB - valueA
+          return sortOrder === 'asc' ? valueA - valueB : valueB - valueA
         }
       })
+
+      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')
 
       return {
         ...state,

@@ -19,10 +19,10 @@ export const createActionCurrencyAutocomplete = (data) => {
   }
 }
 
-export const createActionSortData = (sortId) => {
+export const createActionSortData = (sortId, sortOrder, setSortOrder) => {
   return {
     type: SORT_BY_ID,
-    payload: sortId
+    payload: { sortId, sortOrder, setSortOrder }
   }
 }
 

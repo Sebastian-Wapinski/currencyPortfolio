@@ -7,9 +7,11 @@ import { createActionSortData } from '../../modules/currenciesFormData/currencie
 import { useDispatch } from 'react-redux'
 
 export const TableHeaders = () => {
+  const [sortOrder, setSortOrder] = React.useState('asc')
   const dispatch = useDispatch()
+
   const sortById = (e) => {
-    dispatch(createActionSortData(e.target.id))
+    dispatch(createActionSortData(e.target.id, sortOrder, setSortOrder))
   }
 
   return (
