@@ -41,4 +41,8 @@ transition: all 0.3s ease-in-out;
 }
 `
 
-export { StyledTableHeaders, StyledTh, StyledTr }
+const StyledArrow = styled.span`
+font-size: 0.9rem;
+`
+
+export { StyledTableHeaders, StyledTh, StyledTr, StyledArrow }

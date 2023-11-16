@@ -8,10 +8,12 @@ import { useDispatch } from 'react-redux'
 
 export const TableHeaders = () => {
   const [sortOrder, setSortOrder] = React.useState('asc')
+  const [sortIdNumber, setSortIdNumber] = React.useState(null)
   const dispatch = useDispatch()
 
   const sortById = (e) => {
     dispatch(createActionSortData(e.target.id, sortOrder, setSortOrder))
+    setSortIdNumber(e.target.id)
   }
 
   return (
@@ -25,6 +27,8 @@ export const TableHeaders = () => {
               id={`${id}`}
               header={label}
               onClick={sortById}
+              sortIdNumber={sortIdNumber}
+              sortOrder={sortOrder}
             />
           )
         })

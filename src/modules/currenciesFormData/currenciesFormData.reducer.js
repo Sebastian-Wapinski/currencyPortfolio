@@ -36,9 +36,9 @@ const reducer = (state = initialState, actions) => {
         const isNumberB = isNaN(Number(b[sortId]))
 
         if (typeof valueA === 'string' && typeof valueB === 'string' && isNumberA && isNumberB) {
-          return sortOrder === 'asc' ? valueA.localeCompare(valueB) : valueB.localeCompare(valueA)
+          return sortOrder === 'asc' ? valueB.localeCompare(valueA) : valueA.localeCompare(valueB)
         } else {
-          return sortOrder === 'asc' ? valueA - valueB : valueB - valueA
+          return sortOrder === 'asc' ? valueB - valueA : valueA - valueB
         }
       })
 
