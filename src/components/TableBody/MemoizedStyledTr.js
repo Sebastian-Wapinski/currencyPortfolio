@@ -13,8 +13,7 @@ export const MemoizedStyledTr = (props) => {
     profitLoss,
     percentage,
     currentValueHigherThenPurchaseValue,
-    percentageHigherThenZero,
-    ...otherProps
+    percentageHigherThenZero
   } = props
 
   const dispatch = useDispatch()
@@ -26,7 +25,6 @@ export const MemoizedStyledTr = (props) => {
   return (
     <StyledTr
       key={`${item.amount}/${item.purchaseDate}`}
-      {...otherProps}
     >
       <StyledTd>{item.currencyType.toUpperCase()}</StyledTd>
       <StyledTd>{item.amount}</StyledTd>
